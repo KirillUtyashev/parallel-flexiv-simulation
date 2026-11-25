@@ -1,0 +1,71 @@
+# Checkpoint 2: 16 cloned workcells and 32 active controllers.
+simulation:
+  physics_frequency_hz: 2000.0
+  rendering_frequency_hz: 60.0
+  device: "cuda:0"
+  headless: true
+  render: true
+scene:
+  scene_graph_instancing: true
+  num_envs: 16
+  env_spacing: 5.0
+  replicate_physics: true
+  filter_collisions: true
+  clone_in_fabric: false
+  env_usd: "/home/rvl_root/isaac_scene/final_env_base_and_table.usd"
+fleet:
+  run_id: "isaac-gpu-async-16env-32robots"
+  host_ip: "142.1.44.134"
+  port_start: 10000
+  port_block_size: 40
+  ports_per_robot: 32
+  suffix_prefix: "G16"
+  start_index: 0
+  existing_profile_root: "/home/rvl_root/flexiv_elements_studio/FlexivElementsStudio/user_data_ui/simDir"
+  source_profile: "simulator0"
+  source_internal_serial: "A02LS-05-M1-cBDY86"
+  check_availability: true
+transport:
+  state_queue_capacity: 8
+  command_wait_timeout_ms: 50
+  same_cycle_command_deadline_us: 500
+  require_controller_ready_signal: true
+  controller_ready_poll_s: 0.1
+  max_command_age_steps: 8
+  max_abs_command_nm: [150.0, 150.0, 80.0, 80.0, 49.0, 49.0, 49.0]
+  gpu_state_staging_slots: 4
+  effort_activation_delay_s: 1.0
+  effort_recovery_delay_s: 1.0
+  health_report_cycles: 2000
+  performance_report_cycles: 10000
+monitoring:
+  enabled: true
+  resource_sample_interval_s: 0.5
+  resource_samples_csv: "benchmark_results/gpu_async_resource_samples.csv"
+  correctness_enabled: true
+  correctness_sample_interval_steps: 200
+  correctness_csv: "benchmark_results/gpu_async_robot_correctness.csv"
+  effort_error_tolerance_nm: 0.0001
+  require_resource_samples: true
+  require_correctness_pass: true
+benchmark:
+  enabled: true
+  require_all_effort_active: true
+  controller_ready_timeout_s: 900.0
+  warmup_steps: 2000
+  measured_steps: 10000
+  result_csv: "benchmark_results/gpu_async_scaling_summary_v3.csv"
+robots:
+  - role: "left"
+    prim_name: "left"
+    usd: "../exts/isaacsim.robot.manipulators.examples/data/flexiv/Rizon4s.usd"
+    initial_q: [0.0, -0.698132, 0.0, 1.5708, 0.0, 0.698132, 0.0]
+    position: {x: 0.0, y: 0.0, z: 1.36456706}
+    orientation: {w: 0.9238795, x: -0.3826834, y: 0.0, z: 0.0}
+  - role: "right"
+    prim_name: "right"
+    usd: "../exts/isaacsim.robot.manipulators.examples/data/flexiv/Rizon4s.usd"
+    initial_q: [0.0, -0.698132, 0.0, 1.5708, 0.0, 0.698132, 0.0]
+    position: {x: 0.0, y: -0.44, z: 1.36456706}
+    orientation: {w: 0.9238795, x: 0.3826834, y: 0.0, z: 0.0}
+cameras: []

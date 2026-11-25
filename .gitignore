@@ -1,0 +1,10 @@
+.vscode
+.vs
+.DS_Store
+.thumbs
+extscache/
+cache/
+*.log
+__pycache__
+/build/
+/benchmark_results/

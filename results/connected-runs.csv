@@ -1,0 +1,3 @@
+manifest_generated_at,bridge_version,num_envs,robot_count,device,controllers_required,controller_ready,measured_steps,elapsed_s,effective_physics_hz,environment_steps_per_s,real_time_factor,minimum_effort_active_rows
+2026-07-27T20:57:03.502568+00:00,2.3-gpu-async-monitoring,4,8,cuda:0,True,True,10000,32.781674943864346,305.0484765383128,1220.1939061532512,0.1525242382691564,8
+2026-07-27T21:32:43.301941+00:00,2.5-gpu-async-command-sync,16,32,cuda:0,True,True,10000,54.662949970923364,182.93926700478585,2927.0282720765736,0.09146963350239293,32
