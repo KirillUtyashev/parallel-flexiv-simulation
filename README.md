@@ -14,7 +14,7 @@ Large-scale reinforcement learning (RL) experiments collect experience by runnin
 motions or contact forces under a different low-level controller. This repository runs all the native Flexiv controllers on one workstation, so parallel experiments use the same low-level
 control software as the physical arms.
 
-This effort grew out of a project exploring how force feedback can refine the actions of vision-language-action (VLA) policies during contact-rich manipulation. Project poster (PDF)
+This effort grew out of a project exploring how force feedback can refine the actions of vision-language-action (VLA) policies during contact-rich manipulation. Project poster [PDF]
 (https://www.cs.toronto.edu/~kutyashev/assets/force-aware-poster.pdf?v=2)
 
 ## How it works
