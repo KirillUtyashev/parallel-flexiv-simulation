@@ -1,22 +1,22 @@
 # Parallel Flexiv simulation in Isaac Lab
 
-I wanted to run robotics experiments in parallel while keeping the same control software that drives a physical Flexiv arm. For a contact task such as inserting a peg, the controller’s response when the peg touches the socket is part of what you want to test. Running copies of that experiment side by side lets you vary the starting pose or the commanded motion and see how the controller responds in each trial.
-
-Isaac Lab can simulate many copies of a workcell on one GPU. The stock Flexiv setup, however, supported only one controller-connected arm on a single host IP. Even a single two-arm workcell needed two controllers, and cloning its scene in Isaac did nothing to start them.
-
-I reverse-engineered how Flexiv starts a simulated controller and built a launcher that gives every arm its own instance. With it, I ran **16 copies of a two-arm workcell on one GPU, with 32 native Flexiv controllers running on the same workstation**.
+Run the same experiment across multiple Isaac Lab environments on one machine, with a native Flexiv controller driving each simulated arm. **16 environments and 32 Rizon 4s arms ran together on one GPU.**
 
 ![Grid of two-arm workcells in Isaac Sim](docs/sim_demo.gif)
 
 [Watch the full-resolution demo](docs/sim_demo.mp4)
 
+## Why parallel environments?
+
+The official Flexiv bridge connects Isaac Sim to a robot running in Elements Studio. For two independent Rizon arms, Flexiv’s setup uses two computers, each running its own simulated controller. [Official Flexiv–Isaac bridge and multi-robot setup](https://github.com/flexivrobotics/isaac_sim_ws#multi-robot-support)
+
+Large-scale reinforcement learning (RL) experiments collect experience by running many copies of a task in parallel. Isaac Lab can simulate those copies on one GPU, but a computer per arm makes it impractical to give every copy its own native controller. This repository runs all the controllers on one workstation so each environment can execute an independent trial with the Flexiv control stack.
+
 ## How it works
 
-When I started a second arm, it failed even after I gave it a distinct serial number and communication ports. Both controllers were still trying to open the same time-sync port.
+Reverse engineering the Flexiv controller binary revealed a hardcoded time-sync port. Two controller instances on the same host IP tried to open that port even when their serial numbers and configured communication ports differed.
 
-I traced that listener to a hardcoded port in the controller binary. The launcher prepares a private copy for each arm and assigns it a unique time-sync port, communication ports, and simulator identity. Isaac Lab clones the workcell on the GPU. At each physics step the bridge sends joint state to the corresponding Flexiv controller and applies its returned torques to that arm.
-
-The [runtime preparation code](scripts/controllers/prepare_robot_control_app_runtime.py) handles the binary change. The [environment allocator](scripts/controllers/generate_robot_run_manifest.py) maps each left and right arm to its controller.
+For each arm, the launcher prepares a private copy of the controller with a dedicated time-sync port, assigns it a simulator identity and communication ports, and starts it alongside the other controllers. At each physics step, the Isaac Lab bridge sends each arm’s joint state to its assigned controller and applies the torques it receives to that arm. [Runtime preparation](scripts/controllers/prepare_robot_control_app_runtime.py) · [Environment allocator](scripts/controllers/generate_robot_run_manifest.py)
 
 ## Measured performance
 
