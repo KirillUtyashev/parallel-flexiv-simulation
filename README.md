@@ -10,7 +10,9 @@ Run the same experiment across multiple Isaac Lab environments on one machine, w
 
 The official Flexiv bridge connects Isaac Sim to a robot running in Elements Studio. For two independent Rizon arms, Flexiv’s setup uses two computers, each running its own simulated controller. [Official Flexiv–Isaac bridge and multi-robot setup](https://github.com/flexivrobotics/isaac_sim_ws#multi-robot-support)
 
-Large-scale reinforcement learning (RL) experiments collect experience by running many copies of a task in parallel. Isaac Lab can simulate those copies on one GPU, but a computer per arm makes it impractical to give every copy its own native controller. This repository runs all the controllers on one workstation, so many copies of the same task can run in parallel, each with its own native Flexiv controllers. This simulator grew out of a University of Toronto project exploring how force feedback can refine the actions of vision-language-action (VLA) policies during contact-rich manipulation. [Project poster (PDF)](https://www.cs.toronto.edu/~kutyashev/assets/force-aware-poster.pdf?v=2)
+Large-scale reinforcement learning (RL) experiments collect experience by running many copies of a task in parallel. Isaac Lab can simulate those copies on one GPU, but Flexiv’s official
+setup requires a separate computer for each independently controlled arm. This repository runs all the controllers on one workstation, so each simulated arm has its own native Flexiv
+controller as the environments run in parallel. The repository grew out of a project exploring how force feedback can refine the actions of vision-language-action (VLA) policies during contact-rich manipulation. Project poster (PDF)(https://www.cs.toronto.edu/~kutyashev/assets/force-aware-poster.pdf?v=2)
 
 ## How it works
 
